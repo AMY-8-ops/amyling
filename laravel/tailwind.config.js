@@ -12,20 +12,22 @@ module.exports = {
     require('daisyui'),
   ],
   daisyui: {
-    themes: ["light", "dark", "cupcake",
-      "bumblebee", "emerald", "corporate",
-      "synthwave", "retro", "cyberpunk", "valentine",
-      "halloween", "garden", "forest",
-      "aqua", "lofi", "pastel", "fantasy",
-      "wireframe", "black", "luxury", "dracula",
-      "cmyk", "autumn", "business", "acid",
-      "league", "night", "emerald", "corporate",
-      "synthwave", "retro", "cyberpunk", "valentine",
-      "halloween", "garden", "forest", "aqua",
-      "lofi", "pastel", "fantasy", "wireframe",
-      "black", "luxury", "dracula", "cmyk",
-      "autumn", "business", "acid", "league", "night"
+    themes: [
+      "valentine",
+      "light",
+      "dark",
+      "cupcake",
+      "pastel",
+      "retro",
+      "cyberpunk",
+      "emerald",
+      "synthwave",
+      "garden",
+      "lofi",
+      "fantasy",
+      "dracula"
     ],
   },
 }
+
 
