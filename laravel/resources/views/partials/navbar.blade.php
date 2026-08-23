@@ -42,37 +42,31 @@
         
         <div class="ml-2 flex items-baseline gap-2">
             <span class="text-pink-300 text-sm md:text-base font-black uppercase tracking-widest">Bienvenido,</span>
-            <span class="text-white text-xl md:text-2xl font-bold font-mono tracking-wide drop-shadow-md">Usuario</span>
+            @auth
+                <span class="text-white text-xl md:text-2xl font-bold font-mono tracking-wide drop-shadow-md">{{ Auth::user()->user_name }}</span>
+            @else
+                <span class="text-white text-xl md:text-2xl font-bold font-mono tracking-wide drop-shadow-md">Visitante</span>
+            @endauth
         </div>
     </div>
 
-    <!-- Buscador (Centro) -->
-    <div class="flex-1 flex justify-center px-4 min-w-[200px] mt-4 xl:mt-0">
-        <label class="relative block w-full max-w-lg">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400">
-                <span class="material-symbols-outlined">search</span>
-            </span>
-            <input class="placeholder:italic text-gray-800 placeholder:text-gray-400 block bg-white/90 w-full border-none rounded-full py-3 pl-12 pr-4 shadow-inner focus:outline-none focus:ring-4 focus:ring-pink-300 focus:bg-white transition-all text-sm font-medium"
-            placeholder="Buscar en tareas o categorías..." type="text" name="search"/>
-        </label>
-    </div> 
-    
     <!-- Usuario y Autenticación (Derecha) -->
     <div class="flex items-center gap-3 mt-4 xl:mt-0">
-        
-        <!-- Vista estática para edición. Luego puedes volver a agregar @@auth y las rutas -->
-        <form action="#" method="POST" class="inline">
-            <button type="button" class="bg-rose-500 text-white rounded-full cursor-pointer px-5 py-2.5 text-sm font-bold hover:bg-rose-600 hover:shadow-lg hover:shadow-rose-500/30 transition-all duration-300 flex items-center gap-2">
-                <span class="material-symbols-outlined text-sm">logout</span> Salir
-            </button>
-        </form>
-
-        <a href="#" class="bg-yellow-400 text-purple-900 rounded-full cursor-pointer px-5 py-2.5 text-sm font-bold hover:bg-yellow-300 hover:shadow-lg hover:shadow-yellow-400/30 transition-all duration-300 flex items-center gap-2">
-            <span class="material-symbols-outlined text-sm">login</span> Entrar
-        </a>
-        
-        <a href="#" class="bg-white/10 text-white border border-white/20 rounded-full cursor-pointer px-5 py-2.5 text-sm font-bold hover:bg-white/20 transition-all duration-300">
-            Registro
-        </a>
+        @auth
+            <form action="{{ route('logout') }}" method="POST" class="inline">
+                @csrf
+                <button type="submit" class="bg-rose-500 text-white rounded-full cursor-pointer px-5 py-2.5 text-sm font-bold hover:bg-rose-600 hover:shadow-lg hover:shadow-rose-500/30 transition-all duration-300 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-sm">logout</span> Salir
+                </button>
+            </form>
+        @else
+            <a href="{{ route('login') }}" class="bg-yellow-400 text-purple-900 rounded-full cursor-pointer px-5 py-2.5 text-sm font-bold hover:bg-yellow-300 hover:shadow-lg hover:shadow-yellow-400/30 transition-all duration-300 flex items-center gap-2">
+                <span class="material-symbols-outlined text-sm">login</span> Entrar
+            </a>
+            
+            <a href="{{ route('register') }}" class="bg-white/10 text-white border border-white/20 rounded-full cursor-pointer px-5 py-2.5 text-sm font-bold hover:bg-white/20 transition-all duration-300">
+                Registro
+            </a>
+        @endauth
     </div>
 </nav>

@@ -19,7 +19,8 @@
                             'btn_hover_bg' => 'hover:bg-pink-500',
                             'btn_hover_text' => 'hover:text-yellow-300',
                             'title_color' => 'text-blue-700',
-                            'title_html' => 'T<span class="text-yellow-300">A</span>REAS'
+                            'title_html' => 'T<span class="text-yellow-300">A</span>REAS',
+                            'route' => route('tareas.index')
                         ],
                         [
                             'container_bg' => 'bg-blue-400',
@@ -28,40 +29,94 @@
                             'btn_hover_bg' => 'hover:bg-fuchsia-500',
                             'btn_hover_text' => 'hover:text-green-300',
                             'title_color' => 'text-yellow-200',
-                            'title_html' => 'C<span class="text-green-300">A</span>TEGORIAS'
+                            'title_html' => 'C<span class="text-green-300">A</span>TEGORIAS',
+                            'route' => route('categorias.index')
                         ]
                     ];
                     @endphp
 
                     @foreach ($cards as $card)
-                    <div class="h-[50px] md:h-[60px] {{ $card['container_bg'] }} rounded-xl px-4 md:px-6 flex justify-center items-center gap-3 shadow-md hover:shadow-lg transition-transform duration-300 hover:-translate-y-1 cursor-pointer">
+                    <a href="{{ $card['route'] ?? '#' }}" class="h-[50px] md:h-[60px] {{ $card['container_bg'] }} rounded-xl px-4 md:px-6 flex justify-center items-center gap-3 shadow-md hover:shadow-lg transition-transform duration-300 hover:-translate-y-1 cursor-pointer">
                         <button class="btn btn-sm btn-circle {{ $card['btn_bg'] }} {{ $card['btn_text'] }} border-none {{ $card['btn_hover_bg'] }} hover:border-none {{ $card['btn_hover_text'] }}">
-                            <span class="material-symbols-outlined text-lg">add</span>
+                            <span class="material-symbols-outlined text-lg">arrow_forward</span>
                         </button>
                         <h1 class="{{ $card['title_color'] }} font-bold text-xl md:text-2xl tracking-tight">{!! $card['title_html'] !!}</h1>
-                    </div>
+                    </a>
                     @endforeach
                 </div>
             </div>
-        @php
-        $tasks = [
-            ['border' => 'border-purple-500', 'text' => 'text-purple-500', 'title' => 'Titulo tarea', 'content' => 'Contenido aquí...'],
-            ['border' => 'border-pink-500', 'text' => 'text-pink-500', 'title' => 'Titulo tarea', 'content' => 'Contenido aquí...'],
-            ['border' => 'border-orange-500', 'text' => 'text-orange-500', 'title' => 'Titulo tarea', 'content' => 'Contenido aquí...'],
-            ['border' => 'border-yellow-500', 'text' => 'text-yellow-500', 'title' => 'Titulo tarea', 'content' => 'Contenido aquí...'],
-            ['border' => 'border-orange-500', 'text' => 'text-orange-500', 'title' => 'Titulo tarea', 'content' => 'Contenido aquí...'],
-            ['border' => 'border-yellow-500', 'text' => 'text-yellow-500', 'title' => 'Titulo tarea', 'content' => 'Contenido aquí...'],
-        ];
-        @endphp
-
-        @foreach ($tasks as $task)
-        <fieldset class="flex flex-col bg-white w-full h-[80px] px-6 {{ $task['border'] }} border-l-[14px] border-t-[14px] mb-2">
-            <legend class="px-1 font-bold {{ $task['text'] }} ">
-                {{ $task['title'] }}
-            </legend>
-            <p class="text-blue-800">{{ $task['content'] }}</p>
-        </fieldset>
-        @endforeach
+        @forelse ($tareas as $tarea)
+            @php
+                // Definir colores según estado
+                $borderColor = 'border-purple-500';
+                $textColor = 'text-purple-500';
+                
+                if($tarea->estado === 'completado') {
+                    $borderColor = 'border-green-500';
+                    $textColor = 'text-green-600';
+                } elseif($tarea->estado === 'cancelado') {
+                    $borderColor = 'border-red-500';
+                    $textColor = 'text-red-600';
+                } else {
+                    $borderColor = 'border-yellow-500';
+                    $textColor = 'text-yellow-600';
+                }
+            @endphp
+            
+            <fieldset class="flex flex-col bg-white w-full min-h-[100px] px-6 py-2 {{ $borderColor }} border-l-[14px] border-t-[14px] mb-4 rounded-br-xl shadow-md relative">
+                <legend class="px-2 font-bold {{ $textColor }} bg-white flex items-center gap-2">
+                    {{ $tarea->titulo }}
+                    @if($tarea->categoria)
+                        <span class="bg-gray-100 text-gray-500 text-xs px-2 py-1 rounded-full font-mono">
+                            {{ $tarea->categoria->name }}
+                        </span>
+                    @endif
+                </legend>
+                <div class="text-blue-800 text-sm mt-1 mb-4 pr-32">{{ $tarea->descripcion ?? 'Sin descripción' }}</div>
+                
+                <!-- Botones de Cambio de Estado Rápido -->
+                <div class="absolute bottom-2 right-4 flex gap-1">
+                    @if($tarea->estado !== 'completado')
+                        <form action="{{ route('tareas.updateStatus', $tarea) }}" method="POST">
+                            @csrf
+                            @method('PATCH')
+                            <input type="hidden" name="estado" value="completado">
+                            <button type="submit" class="bg-green-100 text-green-600 hover:bg-green-500 hover:text-white p-1.5 rounded-lg transition-colors" title="Marcar cumplido">
+                                <span class="material-symbols-outlined text-sm">check</span>
+                            </button>
+                        </form>
+                    @endif
+                    
+                    @if($tarea->estado !== 'pendiente')
+                        <form action="{{ route('tareas.updateStatus', $tarea) }}" method="POST">
+                            @csrf
+                            @method('PATCH')
+                            <input type="hidden" name="estado" value="pendiente">
+                            <button type="submit" class="bg-orange-100 text-orange-600 hover:bg-orange-500 hover:text-white p-1.5 rounded-lg transition-colors" title="Marcar pendiente">
+                                <span class="material-symbols-outlined text-sm">schedule</span>
+                            </button>
+                        </form>
+                    @endif
+                    
+                    @if($tarea->estado !== 'cancelado')
+                        <form action="{{ route('tareas.updateStatus', $tarea) }}" method="POST">
+                            @csrf
+                            @method('PATCH')
+                            <input type="hidden" name="estado" value="cancelado">
+                            <button type="submit" class="bg-red-100 text-red-600 hover:bg-red-500 hover:text-white p-1.5 rounded-lg transition-colors" title="Cancelar tarea">
+                                <span class="material-symbols-outlined text-sm">close</span>
+                            </button>
+                        </form>
+                    @endif
+                </div>
+            </fieldset>
+        @empty
+            <div class="bg-white/20 rounded-xl p-8 text-center text-white">
+                <span class="material-symbols-outlined text-5xl mb-2 opacity-50">inbox</span>
+                <p class="font-bold text-xl opacity-80">¡Todo al día!</p>
+                <p class="opacity-60 text-sm">No tienes tareas registradas.</p>
+            </div>
+        @endforelse
 
         </div>
         <div id="list-categories" class="w-full md:w-[30%] bg-gradient-to-b from-violet-900 to-blue-300 p-8 overflow-y-auto">
