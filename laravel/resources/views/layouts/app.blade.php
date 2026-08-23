@@ -2,14 +2,12 @@
 @extends('layouts.base')
 <!-- reserva espacio para contenido de vistas hijas -->
 @section('content')
-<div class="wrapper flex">
-    <!-- Sidebar -->
+<div class="wrapper relative">    
     @include('partials.sidebar')
-    
     <!-- Contenido Principal -->
-    <main class="ml-[250px] flex-1 flex flex-col min-h-screen">
+    <main>
         @include('partials.navbar')
-        <div class="flex-1 flex flex-col">
+        <div>
             @yield('main')
         </div>
     </main>

@@ -42,7 +42,10 @@ $menu = [
     ]
 ];
 @endphp
-<div class="sidebar-panel top-0 bottom-0 fixed w-[250px] bg-pink-300 flex flex-col">
+<!-- Overlay del sidebar -->
+<div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden opacity-0 transition-opacity duration-300"></div>
+
+<div id="sidebar" class="sidebar-panel top-0 left-0 bottom-0 fixed w-[250px] bg-pink-300 flex flex-col z-50 transform -translate-x-full transition-transform duration-300">
     <div class="flex items-center justify-center p-6 border-b border-pink-400/50 mb-4">
         <a class="flex items-baseline gap-1 hover:scale-105 transition-transform duration-300" href="/">
             <h1 class="text-violet-900 text-3xl md:text-4xl font-bold tracking-wide drop-shadow-md">Taskflow</h1>
