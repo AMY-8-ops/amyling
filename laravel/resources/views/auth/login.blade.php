@@ -1,13 +1,20 @@
+<!-- Hereda el diseño base crudo (sin navbar ni sidebar) -->
 @extends('layouts.base')
+
+<!-- Inyecta el contenido principal -->
 @section('content')
 <div class="min-h-screen bg-gradient-to-br from-indigo-950 to-purple-400 flex items-center justify-center p-6">
     <div class="w-full max-w-md bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-8">
         
+        <!-- Logo o Título de Bienvenida -->
         <div class="text-center mb-8">
-            <h1 class="text-white text-3xl font-bold tracking-wide drop-shadow-md">T<span class="text-pink-400">A</span>SKFL<span class="text-pink-400">O</span>W</h1>
-            <p class="text-pink-200 mt-2 font-medium">Bienvenido de nuevo</p>
+            <h1 class="text-white text-4xl font-bold tracking-wide drop-shadow-md mb-2">
+                T<span class="text-yellow-300">A</span>SKFL<span class="text-pink-400">O</span>W
+            </h1>
+            <p class="text-blue-200/80 text-sm">Bienvenido de vuelta</p>
         </div>
 
+        <!-- Bloque de Errores: Muestra alertas si la validación falla (ej. contraseña incorrecta) -->
         @if ($errors->any())
             <div class="bg-red-500/20 border border-red-500/50 text-red-200 px-4 py-3 rounded-xl mb-6 shadow-sm">
                 <ul class="list-disc list-inside text-sm">
@@ -18,7 +25,9 @@
             </div>
         @endif
         
+        <!-- Formulario de Login: Envía datos a AuthController@login -->
         <form method="POST" action="{{ route('login') }}" class="space-y-6">
+            <!-- Protección CSRF de Laravel -->
             @csrf
 
             <div>

@@ -8,6 +8,7 @@
         </div>
     @endif
 
+    <!-- Encabezado de la página de Tareas: Contiene el Título Principal y el Botón de Crear -->
     <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
         <!-- Título y Búsqueda -->
         <div class="flex-1 w-full max-w-2xl flex flex-col md:flex-row gap-4 items-center">
@@ -29,8 +30,9 @@
         </div>
     </div>
 
-    <!-- Tabla de Tareas -->
+    <!-- Contenedor Principal de la Tabla de Tareas -->
     <div class="bg-white/10 backdrop-blur-xl border border-white/20 overflow-hidden shadow-2xl">
+        <!-- Permite scroll horizontal en dispositivos pequeños -->
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>

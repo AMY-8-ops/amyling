@@ -1,13 +1,20 @@
+<!-- Hereda el diseño base crudo (sin navbar ni sidebar) -->
 @extends('layouts.base')
+
+<!-- Inyecta el contenido principal -->
 @section('content')
 <div class="min-h-screen bg-gradient-to-b from-violet-900 to-blue-300 flex items-center justify-center p-6">
     <div class="w-full max-w-md bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-8">
         
+        <!-- Logo o Título de Registro -->
         <div class="text-center mb-8">
-            <h1 class="text-white text-3xl font-bold tracking-wide drop-shadow-md">Únete a T<span class="text-yellow-300">A</span>SKFL<span class="text-yellow-300">O</span>W</h1>
-            <p class="text-blue-200 mt-2 font-medium">Crea tu cuenta gratis</p>
+            <h1 class="text-white text-4xl font-bold tracking-wide drop-shadow-md mb-2">
+                T<span class="text-yellow-300">A</span>SKFL<span class="text-pink-400">O</span>W
+            </h1>
+            <p class="text-blue-200/80 text-sm">Crea tu nueva cuenta</p>
         </div>
 
+        <!-- Bloque de Errores: Muestra alertas si el usuario ya existe o contraseñas no coinciden -->
         @if ($errors->any())
             <div class="bg-red-500/20 border border-red-500/50 text-red-200 px-4 py-3 rounded-xl mb-6 shadow-sm">
                 <ul class="list-disc list-inside text-sm">
@@ -18,7 +25,9 @@
             </div>
         @endif
         
+        <!-- Formulario de Registro: Envía datos a AuthController@register -->
         <form method="POST" action="{{ route('register') }}" class="space-y-5">
+            <!-- Protección CSRF de Laravel -->
             @csrf
 
             <div>

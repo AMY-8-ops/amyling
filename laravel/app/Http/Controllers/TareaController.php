@@ -12,12 +12,17 @@ use Illuminate\Support\Facades\Auth;
 class TareaController extends Controller
 {
     /**
-     * Muestra la lista de tareas.
+     * Muestra la lista principal de tareas.
      */
     public function index(): View
     {
-        // Traemos las tareas con su categoría y usuario usando Eager Loading para optimizar consultas
-        $tareas = Tareas::with(['categoria', 'usuario'])->get();
+        // Obtenemos el ID del usuario actualmente autenticado
+        $userId = Auth::id();
+        
+        // Consultamos la base de datos: traemos las tareas del usuario, incluyendo su categoría asociada
+        $tareas = Tareas::with('categoria')->where('usuario_id', $userId)->get();
+        
+        // Retornamos la vista 'tareas.index' pasándole la variable $tareas
         return view('tareas.index', compact('tareas'));
     }
 
@@ -26,7 +31,10 @@ class TareaController extends Controller
      */
     public function create(): View
     {
+        // Traemos todas las categorías para mostrarlas en un menú desplegable (select)
         $categorias = Categoria::all();
+        
+        // Retornamos la vista que contiene el formulario
         return view('tareas.create', compact('categorias'));
     }
 
@@ -35,18 +43,21 @@ class TareaController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        // Validamos que los datos enviados por el usuario cumplan las reglas
         $validatedData = $request->validate([
             'titulo' => 'required|string|max:255',
             'descripcion' => 'nullable|string',
-            'categoria_id' => 'required|exists:categoria,id',
+            'categoria_id' => 'required|exists:categoria,id', // Verifica que la categoría elegida exista
             'estado' => 'required|string|max:50',
         ]);
 
-        // Asignamos automáticamente el ID del usuario autenticado
+        // Asignamos automáticamente el ID del usuario autenticado a la nueva tarea
         $validatedData['usuario_id'] = Auth::id();
 
+        // Guardamos la tarea en la base de datos con los datos validados
         Tareas::create($validatedData);
 
+        // Redirigimos de vuelta a la lista de tareas con un mensaje de éxito
         return redirect()->route('tareas.index')->with('success', 'Tarea creada exitosamente.');
     }
 

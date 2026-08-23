@@ -10,11 +10,14 @@ use Illuminate\Http\RedirectResponse;
 class CategoriaController extends Controller
 {
     /**
-     * Muestra la lista de categorías.
+     * Muestra una lista de las categorías.
      */
     public function index(): View
     {
+        // Obtenemos todas las categorías de la base de datos
         $categorias = Categoria::all();
+        
+        // Retornamos la vista 'categorias.index' y le pasamos los datos
         return view('categorias.index', compact('categorias'));
     }
 
@@ -27,16 +30,19 @@ class CategoriaController extends Controller
     }
 
     /**
-     * Almacena una nueva categoría en la base de datos.
+     * Almacena una categoría recién creada en la base de datos.
      */
     public function store(Request $request): RedirectResponse
     {
+        // Validamos que el nombre no esté vacío y no supere los 255 caracteres
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255|unique:categoria,name',
+            'name' => 'required|string|max:255',
         ]);
 
+        // Guardamos la categoría
         Categoria::create($validatedData);
 
+        // Volvemos a la lista con un mensaje de confirmación
         return redirect()->route('categorias.index')->with('success', 'Categoría creada exitosamente.');
     }
 

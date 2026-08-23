@@ -1,9 +1,14 @@
+<!-- Hereda el diseño base de la aplicación (navbar, sidebar, fondo) -->
 @extends('layouts.app')
+
+<!-- Inyecta este contenido en la sección 'main' de layouts/app.blade.php -->
 @section('main')
 <div class="p-8 flex justify-center items-center min-h-[80vh]">
+    <!-- Contenedor centralizado para el formulario -->
     <div class="w-full max-w-lg bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 p-8">
         
         <div class="flex items-center justify-between mb-8 border-b border-white/10 pb-4">
+            <!-- Título del formulario -->
             <h1 class="text-white text-3xl font-bold tracking-wide drop-shadow-md flex items-center gap-2">
                 <span class="material-symbols-outlined text-green-300 text-3xl">add_circle</span>
                 Nueva Categoría

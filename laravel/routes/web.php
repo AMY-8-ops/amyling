@@ -17,10 +17,13 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\TareaController;
 use App\Http\Controllers\AuthController;
 
+// Ruta Raíz: Determina a dónde enviar al usuario apenas ingresa a la aplicación.
 Route::get('/', function () {
+    // Si el usuario ya inició sesión, lo enviamos al panel de control (Dashboard)
     if (\Illuminate\Support\Facades\Auth::check()) {
         return redirect()->route('dashboard');
     }
+    // Si no ha iniciado sesión, lo forzamos a ir a la pantalla de Login
     return redirect()->route('login');
 });
 
@@ -38,14 +41,23 @@ Route::middleware('auth')->group(function () {
     
     // Ruta Dashboard (hacia donde redirige el AuthController al iniciar sesión)
     Route::get('/dashboard', function () {
+        // Obtenemos el ID del usuario actualmente logueado
         $userId = \Illuminate\Support\Facades\Auth::id();
+        
+        // Buscamos todas sus tareas (con sus categorías) en la base de datos
         $tareas = \App\Models\Tareas::with('categoria')->where('usuario_id', $userId)->get();
+        
+        // Buscamos todas las categorías existentes
         $categorias = \App\Models\Categoria::all();
             
+        // Renderizamos la vista 'welcome' (dashboard) y le enviamos las variables
         return view('welcome', compact('tareas', 'categorias'));
     })->name('dashboard');
 
+    // Crea automáticamente las rutas CRUD (index, create, store, edit, update, destroy) para Tareas
     Route::resource('tareas', TareaController::class);
+    
+    // Crea automáticamente las rutas CRUD para Categorías
     Route::resource('categorias', CategoriaController::class);
 
     // Ruta para actualizar solo el estado desde el dashboard

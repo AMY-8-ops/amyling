@@ -1,4 +1,7 @@
+<!-- Hereda el diseño base de la aplicación (navbar, sidebar, fondo) -->
 @extends('layouts.app')
+
+<!-- Inyecta este contenido en la sección 'main' de layouts/app.blade.php -->
 @section('main')
 <div class="p-8 flex justify-center items-center min-h-[80vh]">
     <div class="w-full max-w-2xl bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 p-8">
@@ -23,7 +26,9 @@
             </div>
         @endif
 
+        <!-- Formulario: Envía datos a TareaController@update -->
         <form action="{{ route('tareas.update', $tarea) }}" method="POST" class="space-y-6">
+            <!-- Token de seguridad y método PUT (requerido por Laravel para actualizar recursos) -->
             @csrf
             @method('PUT')
 

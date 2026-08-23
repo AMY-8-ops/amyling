@@ -4,6 +4,7 @@
     
     <div class="flex flex-col md:flex-row flex-1 overflow-y-auto md:overflow-hidden">
         
+        <!-- Columna Izquierda: Lista las Tareas del día -->
         <div id="scroll-content" class="w-full md:w-[70%] bg-gradient-to-br from-indigo-950 to-purple-400 p-10 overflow-y-auto">
             <div class="flex flex-wrap justify-between items-center gap-6 mb-8">
                 <h1 class="text-purple-600 text-4xl font-bold">T<span class="text-pink-400">A</span>R<span class="text-pink-400">EA</span>S D<span class="text-pink-400">E</span> <span class="text-orange-400">H<span class="text-pink-400">OY</span></span></h1>
@@ -84,6 +85,7 @@
         @endforelse
 
         </div>
+        <!-- Columna Derecha: Muestra la lista rápida de Categorías -->
         <div id="list-categories" class="w-full md:w-[30%] bg-gradient-to-b from-violet-900 to-blue-300 p-8 overflow-y-auto">
             <h2 class="text-yellow-300 mb-6 text-3xl font-bold">
                 C<span class="text-pink-500">A</span>TEG<span class="text-orange-500">O</span>RÍ<span class="text-purple-500">A</span>S</h2>
