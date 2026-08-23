@@ -21,7 +21,7 @@
         </div>
 
         <!-- Botón Crear -->
-        <div class="bg-white/10 backdrop-blur-md border border-white/20 p-2 rounded-2xl shadow-lg">
+        <div class="shadow-lg">
             <a href="{{ route('tareas.create') }}" class="flex items-center gap-2 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-400 hover:to-purple-400 text-white font-bold py-2.5 px-6 rounded-xl shadow-md transition-all hover:-translate-y-1">
                 <span class="material-symbols-outlined">add_task</span>
                 Nueva Tarea
@@ -30,15 +30,15 @@
     </div>
 
     <!-- Tabla de Tareas -->
-    <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl overflow-hidden shadow-2xl">
+    <div class="bg-white/10 backdrop-blur-xl border border-white/20 overflow-hidden shadow-2xl">
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-black/20 text-yellow-300 font-mono tracking-widest text-sm uppercase">
-                        <th class="p-4 rounded-tl-3xl">Título</th>
+                        <th class="p-4">Título</th>
                         <th class="p-4">Categoría</th>
                         <th class="p-4">Estado</th>
-                        <th class="p-4 text-center rounded-tr-3xl">Acciones</th>
+                        <th class="p-4 text-center">Acciones</th>
                     </tr>
                 </thead>
                 <tbody class="text-blue-100">

@@ -21,7 +21,7 @@
         </div>
 
         <!-- Botón Crear -->
-        <div class="bg-white/10 backdrop-blur-md border border-white/20 p-2 rounded-2xl shadow-lg">
+        <div class="shadow-lg">
             <a href="{{ route('categorias.create') }}" class="flex items-center gap-2 bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-400 hover:to-teal-400 text-white font-bold py-2.5 px-6 rounded-xl shadow-md transition-all hover:-translate-y-1">
                 <span class="material-symbols-outlined">category</span>
                 Nueva Categoría
@@ -30,14 +30,14 @@
     </div>
 
     <!-- Tabla de Categorías -->
-    <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl overflow-hidden shadow-2xl">
+    <div class="bg-white/10 backdrop-blur-xl border border-white/20 overflow-hidden shadow-2xl">
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-black/20 text-green-300 font-mono tracking-widest text-sm uppercase">
-                        <th class="p-4 rounded-tl-3xl w-16">ID</th>
+                        <th class="p-4 w-16">ID</th>
                         <th class="p-4">Nombre de la Categoría</th>
-                        <th class="p-4 text-center rounded-tr-3xl">Acciones</th>
+                        <th class="p-4 text-center">Acciones</th>
                     </tr>
                 </thead>
                 <tbody class="text-blue-100">
