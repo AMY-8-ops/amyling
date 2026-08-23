@@ -7,7 +7,7 @@
     <!-- Contenido Principal -->
     <main>
         @include('partials.navbar')
-        <div class="bg-gradient-to-b from-violet-900 to-pink-200 w-full h-screen">
+        <div class="bg-gradient-to-b from-violet-900 to-black w-full h-screen">
             @yield('main')
         </div>
     </main>

@@ -46,18 +46,18 @@
                         <tr class="border-b border-white/10 hover:bg-white/5 transition-colors">
                             <td class="p-4 font-semibold text-white">{{ $tarea->titulo }}</td>
                             <td class="p-4">
-                                <span class="bg-blue-500/20 text-blue-200 border border-blue-500/30 px-3 py-1 rounded-full text-xs font-bold">
+                                <span class="text-white font-bold text-sm">
                                     {{ $tarea->categoria->name ?? 'Sin categoría' }}
                                 </span>
                             </td>
                             <td class="p-4">
                                 @if($tarea->estado === 'completado')
-                                    <span class="bg-green-500/20 text-green-300 border border-green-500/30 px-3 py-1 rounded-full text-xs font-bold flex items-center w-max gap-1">
-                                        <span class="material-symbols-outlined text-sm">check_circle</span> Completado
+                                    <span class="text-white font-bold flex items-center gap-1 text-sm">
+                                        <span class="material-symbols-outlined text-base">check_circle</span> Completado
                                     </span>
                                 @else
-                                    <span class="bg-orange-500/20 text-orange-300 border border-orange-500/30 px-3 py-1 rounded-full text-xs font-bold flex items-center w-max gap-1">
-                                        <span class="material-symbols-outlined text-sm">schedule</span> Pendiente
+                                    <span class="text-white font-bold flex items-center gap-1 text-sm">
+                                        <span class="material-symbols-outlined text-base">schedule</span> Pendiente
                                     </span>
                                 @endif
                             </td>

@@ -74,41 +74,6 @@
                 </legend>
                 <div class="text-blue-800 text-sm mt-1 mb-4 pr-32">{{ $tarea->descripcion ?? 'Sin descripción' }}</div>
                 
-                <!-- Botones de Cambio de Estado Rápido -->
-                <div class="absolute bottom-2 right-4 flex gap-1">
-                    @if($tarea->estado !== 'completado')
-                        <form action="{{ route('tareas.updateStatus', $tarea) }}" method="POST">
-                            @csrf
-                            @method('PATCH')
-                            <input type="hidden" name="estado" value="completado">
-                            <button type="submit" class="bg-green-100 text-green-600 hover:bg-green-500 hover:text-white p-1.5 rounded-lg transition-colors" title="Marcar cumplido">
-                                <span class="material-symbols-outlined text-sm">check</span>
-                            </button>
-                        </form>
-                    @endif
-                    
-                    @if($tarea->estado !== 'pendiente')
-                        <form action="{{ route('tareas.updateStatus', $tarea) }}" method="POST">
-                            @csrf
-                            @method('PATCH')
-                            <input type="hidden" name="estado" value="pendiente">
-                            <button type="submit" class="bg-orange-100 text-orange-600 hover:bg-orange-500 hover:text-white p-1.5 rounded-lg transition-colors" title="Marcar pendiente">
-                                <span class="material-symbols-outlined text-sm">schedule</span>
-                            </button>
-                        </form>
-                    @endif
-                    
-                    @if($tarea->estado !== 'cancelado')
-                        <form action="{{ route('tareas.updateStatus', $tarea) }}" method="POST">
-                            @csrf
-                            @method('PATCH')
-                            <input type="hidden" name="estado" value="cancelado">
-                            <button type="submit" class="bg-red-100 text-red-600 hover:bg-red-500 hover:text-white p-1.5 rounded-lg transition-colors" title="Cancelar tarea">
-                                <span class="material-symbols-outlined text-sm">close</span>
-                            </button>
-                        </form>
-                    @endif
-                </div>
             </fieldset>
         @empty
             <div class="bg-white/20 rounded-xl p-8 text-center text-white">
@@ -121,34 +86,34 @@
         </div>
         <div id="list-categories" class="w-full md:w-[30%] bg-gradient-to-b from-violet-900 to-blue-300 p-8 overflow-y-auto">
             <h2 class="text-yellow-300 mb-6 text-3xl font-bold">
-                M<span class="text-pink-500">ÁS</span>
-                <span class="text-pink-500">I</span>MP<span class="text-orange-500">O</span>RT<span class="text-purple-500">A</span>NTES</h2>
+                C<span class="text-pink-500">A</span>TEG<span class="text-orange-500">O</span>RÍ<span class="text-purple-500">A</span>S</h2>
             
             @php
-            $importantTasks = [
-                ['text' => 'text-pink-600', 'title' => 'Tarea urgente 1', 'bg' => 'bg-pink-100'],
-                ['text' => 'text-green-600', 'title' => 'Tarea urgente 2', 'bg' => 'bg-green-100'],
-                ['text' => 'text-yellow-600', 'title' => 'Tarea urgente 3', 'bg' => 'bg-yellow-100'],
-                ['text' => 'text-purple-600', 'title' => 'Tarea urgente 4', 'bg' => 'bg-purple-100'],
-                ['text' => 'text-orange-600', 'title' => 'Tarea urgente 5', 'bg' => 'bg-orange-100'],
-                ['text' => 'text-pink-600', 'title' => 'Tarea urgente 1', 'bg' => 'bg-pink-100'],
-                ['text' => 'text-green-600', 'title' => 'Tarea urgente 2', 'bg' => 'bg-green-100'],
-                ['text' => 'text-yellow-600', 'title' => 'Tarea urgente 3', 'bg' => 'bg-yellow-100'],
-                ['text' => 'text-purple-600', 'title' => 'Tarea urgente 4', 'bg' => 'bg-purple-100'],
-                ['text' => 'text-orange-600', 'title' => 'Tarea urgente 5', 'bg' => 'bg-orange-100'],
+            $colors = [
+                ['text' => 'text-pink-600', 'bg' => 'bg-pink-100'],
+                ['text' => 'text-green-600', 'bg' => 'bg-green-100'],
+                ['text' => 'text-yellow-600', 'bg' => 'bg-yellow-100'],
+                ['text' => 'text-purple-600', 'bg' => 'bg-purple-100'],
+                ['text' => 'text-orange-600', 'bg' => 'bg-orange-100'],
             ];
             @endphp
 
             <ul class="space-y-4">
-                @foreach ($importantTasks as $cat)
-                <li class="flex items-center justify-between {{ $cat['bg'] }} p-4
+                @forelse ($categorias as $index => $cat)
+                @php
+                    $color = $colors[$index % count($colors)];
+                @endphp
+                <li class="flex items-center justify-between {{ $color['bg'] }} p-4
                     rounded-[50px]
                     shadow-md hover:scale-105 
-                    transition-transform duration-200 cursor-pointer">
-                    <span class="font-bold text-xl {{ $cat['text'] }}">{{ $cat['title'] }}</span>
-                    <span class="material-symbols-outlined {{ $cat['text'] }}">arrow_forward_ios</span>
+                    transition-transform duration-200 cursor-pointer"
+                    onclick="window.location='{{ route('categorias.index') }}'">
+                    <span class="font-bold text-xl {{ $color['text'] }}">{{ $cat->name }}</span>
+                    <span class="material-symbols-outlined {{ $color['text'] }}">arrow_forward_ios</span>
                 </li>
-                @endforeach
+                @empty
+                <li class="text-white/70 italic text-center mt-8">No hay categorías registradas.</li>
+                @endforelse
             </ul>
         </div>
     </div>

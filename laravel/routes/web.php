@@ -38,11 +38,11 @@ Route::middleware('auth')->group(function () {
     
     // Ruta Dashboard (hacia donde redirige el AuthController al iniciar sesión)
     Route::get('/dashboard', function () {
-        $tareas = \App\Models\Tareas::with('categoria')
-            ->where('usuario_id', \Illuminate\Support\Facades\Auth::id())
-            ->get();
+        $userId = \Illuminate\Support\Facades\Auth::id();
+        $tareas = \App\Models\Tareas::with('categoria')->where('usuario_id', $userId)->get();
+        $categorias = \App\Models\Categoria::all();
             
-        return view('welcome', compact('tareas'));
+        return view('welcome', compact('tareas', 'categorias'));
     })->name('dashboard');
 
     Route::resource('tareas', TareaController::class);
