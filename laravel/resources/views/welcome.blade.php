@@ -45,7 +45,21 @@
                     </a>
                     @endforeach
                 </div>
+            </div>
+
+            @if(isset($error) || session('error'))
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6 shadow-md" role="alert">
+                    <strong class="font-bold">¡Ups!</strong>
+                    <span class="block sm:inline">{{ $error ?? session('error') }}</span>
                 </div>
+            @endif
+            
+            @if(session('success'))
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6 shadow-md" role="alert">
+                    <strong class="font-bold">¡Genial!</strong>
+                    <span class="block sm:inline">{{ session('success') }}</span>
+                </div>
+            @endif
 
         @forelse ($tareas as $tarea)
             @php
@@ -73,16 +87,28 @@
                             {{ $tarea->categoria->name }}
                         </span>
                     @endif
+                    <span class="text-xs font-normal text-gray-400 ml-auto">
+                        <span class="material-symbols-outlined text-[14px] align-middle">schedule</span>
+                        {{ $tarea->created_at->format('H:i') }}
+                    </span>
                 </legend>
                 <div class="text-blue-800 text-sm mt-1 mb-8 pr-32">{{ $tarea->descripcion ?? 'Sin descripción' }}</div>
                 
-                <!-- Botón de estado -->
+                <!-- Selector de estado interactivo -->
                 <div class="absolute bottom-4 right-4">
-                    <button class="px-4 py-1 rounded-full text-xs font-bold text-white shadow-sm transition-colors cursor-default
-                        {{ $tarea->estado === 'completado' ? 'bg-green-500' : 
-                          ($tarea->estado === 'cancelado' ? 'bg-red-500' : 'bg-yellow-500') }}">
-                        {{ ucfirst($tarea->estado ?? 'pendiente') }}
-                    </button>
+                    <form action="{{ route('tareas.updateStatus', $tarea->id) }}" method="POST" class="m-0 p-0">
+                        @csrf
+                        @method('PATCH')
+                        
+                        <select name="estado" onchange="this.form.submit()" 
+                            class="px-4 py-1 rounded-full text-xs font-bold text-white shadow-sm cursor-pointer outline-none focus:ring-2 focus:ring-white/50 text-center appearance-none transition-colors
+                            {{ $tarea->estado === 'completado' ? 'bg-green-500 hover:bg-green-600' : 
+                              ($tarea->estado === 'cancelado' ? 'bg-red-500 hover:bg-red-600' : 'bg-yellow-500 hover:bg-yellow-600') }}">
+                            <option class="text-gray-800 bg-white" value="pendiente" {{ $tarea->estado === 'pendiente' ? 'selected' : '' }}>Pendiente</option>
+                            <option class="text-gray-800 bg-white" value="completado" {{ $tarea->estado === 'completado' ? 'selected' : '' }}>Completado</option>
+                            <option class="text-gray-800 bg-white" value="cancelado" {{ $tarea->estado === 'cancelado' ? 'selected' : '' }}>Cancelado</option>
+                        </select>
+                    </form>
                 </div>
             </fieldset>
         @empty

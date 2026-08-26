@@ -44,6 +44,8 @@
                     <tr class="bg-black/20 text-yellow-300 font-mono tracking-widest text-sm uppercase">
                         <th class="p-4">Título</th>
                         <th class="p-4">Categoría</th>
+                        <th class="p-4 hidden md:table-cell">Descripción</th>
+                        <th class="p-4">Fecha</th>
                         <th class="p-4">Estado</th>
                         <th class="p-4 text-center">Acciones</th>
                     </tr>
@@ -58,6 +60,13 @@
                                     {{-- Intenta mostrar el nombre de la categoría o un texto alternativo si es null --}}
                                     {{ $tarea->categoria->name ?? 'Sin categoría' }}
                                 </span>
+                            </td>
+                            <td class="p-4 hidden md:table-cell text-sm text-white/70 max-w-xs truncate" title="{{ $tarea->descripcion }}">
+                                {{ $tarea->descripcion ?? 'Sin descripción' }}
+                            </td>
+                            <td class="p-4 text-sm text-white/80 whitespace-nowrap">
+                                {{ $tarea->created_at->format('d/m/Y') }}
+                                <div class="text-xs text-white/50 mt-1">{{ $tarea->created_at->format('H:i') }}</div>
                             </td>
                             <td class="p-4">
                                 {{-- Verifica el estado de la tarea para mostrar un ícono y texto diferente --}}

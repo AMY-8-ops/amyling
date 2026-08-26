@@ -24,16 +24,28 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        // Obtenemos el ID del usuario actualmente logueado
-        $userId = \Illuminate\Support\Facades\Auth::id();
-        
-        // Buscamos todas sus tareas (con sus categorías) en la base de datos
-        $tareas = \App\Models\Tareas::with('categoria')->where('usuario_id', $userId)->get();
-        
-        // Buscamos todas las categorías existentes
-        $categorias = \App\Models\Categoria::all();
+        try {
+            // Obtenemos el ID del usuario actualmente logueado
+            $userId = \Illuminate\Support\Facades\Auth::id();
             
-        // Renderizamos la vista 'welcome' (dashboard) y le enviamos las variables
-        return view('welcome', compact('tareas', 'categorias'));
+            // Buscamos todas sus tareas de HOY (con sus categorías) en la base de datos
+            $tareas = \App\Models\Tareas::with('categoria')
+                ->where('usuario_id', $userId)
+                ->whereDate('created_at', now()->toDateString())
+                ->get();
+            
+            // Buscamos las categorías que pertenecen ÚNICAMENTE al usuario logueado
+            $categorias = \App\Models\Categoria::where('usuario_id', $userId)->get();
+                
+            // Renderizamos la vista 'welcome' (dashboard) y le enviamos las variables
+            return view('welcome', compact('tareas', 'categorias'));
+        } catch (\Exception $e) {
+            // Control de errores: mensaje en español y directo para el usuario
+            return view('welcome', [
+                'tareas' => collect(),
+                'categorias' => collect(),
+                'error' => 'Ocurrió un error inesperado al cargar tus tareas de hoy. Por favor, intenta de nuevo más tarde.'
+            ]);
+        }
     }
 }
