@@ -16,16 +16,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\TareaController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 
 // Ruta Raíz: Determina a dónde enviar al usuario apenas ingresa a la aplicación.
-Route::get('/', function () {
-    // Si el usuario ya inició sesión, lo enviamos al panel de control (Dashboard)
-    if (\Illuminate\Support\Facades\Auth::check()) {
-        return redirect()->route('dashboard');
-    }
-    // Si no ha iniciado sesión, lo forzamos a ir a la pantalla de Login
-    return redirect()->route('login');
-});
+Route::get('/', [DashboardController::class, 'root']);
 
 // Rutas para usuarios NO autenticados (invitados)
 Route::middleware('guest')->group(function () {
@@ -40,19 +34,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     
     // Ruta Dashboard (hacia donde redirige el AuthController al iniciar sesión)
-    Route::get('/dashboard', function () {
-        // Obtenemos el ID del usuario actualmente logueado
-        $userId = \Illuminate\Support\Facades\Auth::id();
-        
-        // Buscamos todas sus tareas (con sus categorías) en la base de datos
-        $tareas = \App\Models\Tareas::with('categoria')->where('usuario_id', $userId)->get();
-        
-        // Buscamos todas las categorías existentes
-        $categorias = \App\Models\Categoria::all();
-            
-        // Renderizamos la vista 'welcome' (dashboard) y le enviamos las variables
-        return view('welcome', compact('tareas', 'categorias'));
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Crea automáticamente las rutas CRUD (index, create, store, edit, update, destroy) para Tareas
     Route::resource('tareas', TareaController::class);

@@ -2,6 +2,7 @@
 @section('main')
 <div class="p-8">
     
+    {{-- Muestra una alerta verde si el controlador envía un mensaje 'success' a la vista --}}
     @if(session('success'))
         <div class="bg-green-500/20 border border-green-500/50 text-green-200 px-4 py-3 rounded-xl mb-6 shadow-sm">
             {{ session('success') }}
@@ -43,15 +44,18 @@
                     </tr>
                 </thead>
                 <tbody class="text-blue-100">
+                    {{-- Recorre la lista de categorías. Si está vacía, se ejecutará la parte @empty --}}
                     @forelse ($categorias as $categoria)
                         <tr class="border-b border-white/10 hover:bg-white/5 transition-colors">
                             <td class="p-4 font-semibold text-white/50">{{ $categoria->id }}</td>
                             <td class="p-4 font-semibold text-white">{{ $categoria->name }}</td>
                             <td class="p-4 text-center">
                                 <div class="flex justify-center gap-2">
+                                    {{-- Botón que nos redirige a la vista del formulario para editar esta categoría específica --}}
                                     <a href="{{ route('categorias.edit', $categoria) }}" class="bg-yellow-400/20 text-yellow-400 hover:bg-yellow-400 hover:text-purple-900 p-2 rounded-lg transition-colors" title="Editar">
                                         <span class="material-symbols-outlined text-sm">edit</span>
                                     </a>
+                                    {{-- Formulario para eliminar. Requiere el método DELETE, protegido con CSRF, y muestra un cuadro de confirmación JS --}}
                                     <form action="{{ route('categorias.destroy', $categoria) }}" method="POST" class="inline" onsubmit="return confirm('¿Seguro que deseas eliminar esta categoría? Las tareas asociadas podrían verse afectadas.');">
                                         @csrf
                                         @method('DELETE')
@@ -62,6 +66,7 @@
                                 </div>
                             </td>
                         </tr>
+                    {{-- Qué mostrar si aún no existen categorías en la base de datos --}}
                     @empty
                         <tr>
                             <td colspan="3" class="p-8 text-center text-purple-200">

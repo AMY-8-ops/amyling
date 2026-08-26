@@ -27,13 +27,16 @@
         @endif
 
         <!-- Formulario: Envía datos a TareaController@update -->
+        {{-- route('tareas.update', $tarea) genera la URL a la que se enviarán los datos modificados --}}
         <form action="{{ route('tareas.update', $tarea) }}" method="POST" class="space-y-6">
             <!-- Token de seguridad y método PUT (requerido por Laravel para actualizar recursos) -->
             @csrf
+            {{-- html no soporta el método PUT, así que Laravel lo simula con @method('PUT') --}}
             @method('PUT')
 
             <div>
                 <label for="titulo" class="block text-yellow-300 text-sm font-bold mb-2">Título de la Tarea</label>
+                {{-- old('titulo', $tarea->titulo) pone el valor anterior si falló la validación, o el valor actual de la base de datos si es la primera carga --}}
                 <input type="text" name="titulo" id="titulo" value="{{ old('titulo', $tarea->titulo) }}" required
                     class="w-full bg-white/5 border border-purple-300/30 rounded-xl py-3 px-4 text-white placeholder-purple-300/50 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all">
             </div>

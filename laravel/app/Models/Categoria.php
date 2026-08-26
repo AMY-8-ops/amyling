@@ -11,10 +11,15 @@ class Categoria extends Model
     use SoftDeletes;
     protected $table = 'categoria';
     protected $primaryKey = 'id';
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'usuario_id'];
 
     public function tareas()
     {
         return $this->hasMany(Tareas::class, 'categoria_id');
+    }
+
+    public function usuario()
+    {
+        return $this->belongsTo(User::class, 'usuario_id');
     }
 }

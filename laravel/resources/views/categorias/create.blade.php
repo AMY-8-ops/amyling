@@ -18,6 +18,7 @@
             </a>
         </div>
 
+        {{-- Mostrar errores de validación (por ejemplo, si se envía el formulario vacío) --}}
         @if ($errors->any())
             <div class="bg-red-500/20 border border-red-500/50 text-red-200 px-4 py-3 rounded-xl mb-6 shadow-sm">
                 <ul class="list-disc list-inside text-sm">
@@ -28,11 +29,14 @@
             </div>
         @endif
 
+        {{-- Formulario para crear categoría. Envía los datos (POST) a 'categorias.store' --}}
         <form action="{{ route('categorias.store') }}" method="POST" class="space-y-6">
+            {{-- Token de seguridad para evitar peticiones falsificadas (CSRF) --}}
             @csrf
 
             <div>
                 <label for="name" class="block text-green-300 text-sm font-bold mb-2">Nombre de la Categoría</label>
+                {{-- old('name') recuerda lo escrito previamente si ocurrió un error al enviar el formulario --}}
                 <input type="text" name="name" id="name" value="{{ old('name') }}" required autofocus
                     class="w-full bg-white/5 border border-purple-300/30 rounded-xl py-3 px-4 text-white placeholder-purple-300/50 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition-all"
                     placeholder="Ej. Trabajo, Personal, Estudio...">

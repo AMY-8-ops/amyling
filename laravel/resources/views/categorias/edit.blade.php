@@ -23,12 +23,15 @@
             </div>
         @endif
 
+        {{-- Formulario que envía los datos modificados a 'categorias.update'. La ruta recibe la categoría que se va a editar. --}}
         <form action="{{ route('categorias.update', $categoria) }}" method="POST" class="space-y-6">
             @csrf
+            {{-- Especifica el método PUT, que es el que se usa en Laravel para actualizar recursos existentes --}}
             @method('PUT')
 
             <div>
                 <label for="name" class="block text-green-300 text-sm font-bold mb-2">Nombre de la Categoría</label>
+                {{-- Muestra el valor de 'name' de la categoría cargada desde la base de datos, o 'old' si hubo un error --}}
                 <input type="text" name="name" id="name" value="{{ old('name', $categoria->name) }}" required
                     class="w-full bg-white/5 border border-purple-300/30 rounded-xl py-3 px-4 text-white placeholder-purple-300/50 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition-all">
             </div>

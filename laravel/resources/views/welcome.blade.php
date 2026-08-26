@@ -45,7 +45,8 @@
                     </a>
                     @endforeach
                 </div>
-            </div>
+                </div>
+
         @forelse ($tareas as $tarea)
             @php
                 // Definir colores según estado
@@ -73,14 +74,21 @@
                         </span>
                     @endif
                 </legend>
-                <div class="text-blue-800 text-sm mt-1 mb-4 pr-32">{{ $tarea->descripcion ?? 'Sin descripción' }}</div>
+                <div class="text-blue-800 text-sm mt-1 mb-8 pr-32">{{ $tarea->descripcion ?? 'Sin descripción' }}</div>
                 
+                <!-- Botón de estado -->
+                <div class="absolute bottom-4 right-4">
+                    <button class="px-4 py-1 rounded-full text-xs font-bold text-white shadow-sm transition-colors cursor-default
+                        {{ $tarea->estado === 'completado' ? 'bg-green-500' : 
+                          ($tarea->estado === 'cancelado' ? 'bg-red-500' : 'bg-yellow-500') }}">
+                        {{ ucfirst($tarea->estado ?? 'pendiente') }}
+                    </button>
+                </div>
             </fieldset>
         @empty
-            <div class="bg-white/20 rounded-xl p-8 text-center text-white">
-                <span class="material-symbols-outlined text-5xl mb-2 opacity-50">inbox</span>
+            <div class="rounded-xl p-8 text-center text-white">
                 <p class="font-bold text-xl opacity-80">¡Todo al día!</p>
-                <p class="opacity-60 text-sm">No tienes tareas registradas.</p>
+                <p class="opacity-60 text-sm">No tienes tareas registradas para hoy.</p>
             </div>
         @endforelse
 

@@ -18,6 +18,7 @@
             </a>
         </div>
 
+        {{-- Mostrar errores de validación si existen (ej. si el usuario dejó un campo vacío) --}}
         @if ($errors->any())
             <div class="bg-red-500/20 border border-red-500/50 text-red-200 px-4 py-3 rounded-xl mb-6 shadow-sm">
                 <ul class="list-disc list-inside text-sm">
@@ -28,20 +29,26 @@
             </div>
         @endif
 
+        {{-- Formulario para crear tarea que envía datos (POST) a la ruta 'tareas.store' --}}
         <form action="{{ route('tareas.store') }}" method="POST" class="space-y-6">
+            {{-- Token CSRF obligatorio en Laravel para evitar ataques de falsificación de peticiones --}}
             @csrf
 
             <div>
                 <label for="titulo" class="block text-yellow-300 text-sm font-bold mb-2">Título de la Tarea</label>
+                {{-- old('titulo') mantiene el valor escrito si hay un error de validación --}}
                 <input type="text" name="titulo" id="titulo" value="{{ old('titulo') }}" required autofocus
-                    class="w-full bg-white/5 border border-purple-300/30 rounded-xl py-3 px-4 text-white placeholder-purple-300/50 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all"
-                    placeholder="Ej. Revisar informe mensual">
+                    class="w-full bg-white/5 border border-purple-300/30 rounded-xl py-3 px-4 
+                    text-white placeholder-purple-300/50 focus:outline-none focus:ring-2
+                    focus:ring-pink-400 focus:border-transparent transition-all">
             </div>
 
             <div>
                 <label for="descripcion" class="block text-yellow-300 text-sm font-bold mb-2">Descripción (Opcional)</label>
                 <textarea name="descripcion" id="descripcion" rows="3"
-                    class="w-full bg-white/5 border border-purple-300/30 rounded-xl py-3 px-4 text-white placeholder-purple-300/50 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all"
+                    class="w-full bg-white/5 border border-purple-300/30 rounded-xl py-3 px-4
+                    text-white focus:outline-none focus:ring-2 
+                    focus:ring-pink-400 focus:border-transparent transition-all"
                     placeholder="Detalles sobre la tarea...">{{ old('descripcion') }}</textarea>
             </div>
 
@@ -51,6 +58,7 @@
                     <select name="categoria_id" id="categoria_id" required
                         class="w-full bg-indigo-900 border border-purple-300/30 rounded-xl py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all cursor-pointer">
                         <option value="" disabled selected>Selecciona una categoría</option>
+                        {{-- Iteramos sobre todas las categorías pasadas desde el controlador para mostrarlas como opciones --}}
                         @foreach($categorias as $categoria)
                             <option value="{{ $categoria->id }}" {{ old('categoria_id') == $categoria->id ? 'selected' : '' }}>
                                 {{ $categoria->name }}
